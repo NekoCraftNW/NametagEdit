@@ -122,7 +122,7 @@ public class NametagManager {
         setNametag(player, prefix, suffix, -1, false, visible);
     }
 
-    void setNametag(String player, String prefix, String suffix, int sortPriority) {
+    public void setNametag(String player, String prefix, String suffix, int sortPriority) {
         setNametag(player, prefix, suffix, sortPriority, false, true);
     }
 

@@ -56,13 +56,13 @@ public final class NametagAPI implements INametagApi {
     @Override
     public void setPrefix(Player player, String prefix) {
         FakeTeam fakeTeam = manager.getFakeTeam(player.getName());
-        setNametagAlt(player, prefix, fakeTeam == null ? null : fakeTeam.getSuffix());
+        setNametagAlt(player, prefix, fakeTeam == null ? null : fakeTeam.getSuffix(), -1);
     }
 
     @Override
     public void setSuffix(Player player, String suffix) {
         FakeTeam fakeTeam = manager.getFakeTeam(player.getName());
-        setNametagAlt(player, fakeTeam == null ? null : fakeTeam.getPrefix(), suffix);
+        setNametagAlt(player, fakeTeam == null ? null : fakeTeam.getPrefix(), suffix, -1);
     }
 
     @Override
@@ -79,7 +79,12 @@ public final class NametagAPI implements INametagApi {
 
     @Override
     public void setNametag(Player player, String prefix, String suffix) {
-        setNametagAlt(player, prefix, suffix);
+        setNametagAlt(player, prefix, suffix, -1);
+    }
+
+    @Override
+    public void setNametag(Player player, String prefix, String suffix, int priority) {
+        setNametagAlt(player, prefix, suffix, priority);
     }
 
     @Override
@@ -128,7 +133,7 @@ public final class NametagAPI implements INametagApi {
 
     @Override
     public void applyTagToPlayer(Player player, boolean loggedIn) {
-        handler.applyTagToPlayer(player,loggedIn);
+        handler.applyTagToPlayer(player, loggedIn);
     }
 
     @Override
@@ -158,7 +163,7 @@ public final class NametagAPI implements INametagApi {
     /**
      * Private helper function to reduce redundancy
      */
-    private void setNametagAlt(Player player, String prefix, String suffix) {
+    private void setNametagAlt(Player player, String prefix, String suffix, int priority) {
         Nametag nametag = new Nametag(
                 handler.formatWithPlaceholders(player, prefix, true),
                 handler.formatWithPlaceholders(player, suffix, true)
@@ -167,7 +172,6 @@ public final class NametagAPI implements INametagApi {
         NametagEvent event = new NametagEvent(player.getName(), prefix, nametag, NametagEvent.ChangeType.UNKNOWN);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
-        manager.setNametag(player.getName(), nametag.getPrefix(), nametag.getSuffix());
+        manager.setNametag(player.getName(), nametag.getPrefix(), nametag.getSuffix(), priority);
     }
-
 }

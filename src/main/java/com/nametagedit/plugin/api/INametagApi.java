@@ -131,6 +131,19 @@ public interface INametagApi {
      * @param player the player whose nametag to change
      * @param prefix the prefix to change to
      * @param suffix the suffix to change to
+     * @param priority the priority to sort in the tab
+     */
+    void setNametag(Player player, String prefix, String suffix, int priority);
+
+    /**
+     * Sets the nametag for a player.
+     * <p>
+     * Note: Only affects memory, does NOT
+     * add/remove from storage.
+     *
+     * @param player the player whose nametag to change
+     * @param prefix the prefix to change to
+     * @param suffix the suffix to change to
      */
     void setNametag(String player, String prefix, String suffix);
 
